@@ -17,6 +17,31 @@
 
     <section class="main-content">
       <h3>
+<a id="post-form-data-with-spring-resttemplate" class="anchor" href="#post-form-data-with-spring-resttemplate" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>POST Form data with Spring RestTemplate</h3>
+
+<p>Simulates a browser Form submit (POST).</p>
+
+<div class="highlight highlight-source-java"><pre>      <span class="pl-smi">RestTemplate</span> rest <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">RestTemplate</span>();
+      <span class="pl-k">List&lt;<span class="pl-k">HttpMessageConverter&lt;?&gt;</span>&gt;</span> converters <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-k">ArrayList&lt;&gt;</span>(<span class="pl-c1">2</span>);
+      converters<span class="pl-k">.</span>add(<span class="pl-k">new</span> <span class="pl-smi">FormHttpMessageConverter</span>());
+      converters<span class="pl-k">.</span>add(<span class="pl-k">new</span> <span class="pl-smi">StringHttpMessageConverter</span>());
+      rest<span class="pl-k">.</span>setMessageConverters(converters);
+
+      <span class="pl-c">// Form data goes into the map</span>
+      <span class="pl-k">MultiValueMap&lt;<span class="pl-smi">String</span>, <span class="pl-smi">String</span>&gt;</span> map <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-k">LinkedMultiValueMap&lt;<span class="pl-smi">String</span>, <span class="pl-smi">String</span>&gt;</span>();
+      map<span class="pl-k">.</span>add(<span class="pl-s"><span class="pl-pds">"</span>firstName<span class="pl-pds">"</span></span>, getFirstName());
+      map<span class="pl-k">.</span>add(<span class="pl-s"><span class="pl-pds">"</span>lastName<span class="pl-pds">"</span></span>, getLastName());
+      map<span class="pl-k">.</span>add(<span class="pl-s"><span class="pl-pds">"</span>departureCity<span class="pl-pds">"</span></span>, getCity()<span class="pl-k">.</span>getId()<span class="pl-k">.</span>toString());
+      <span class="pl-smi">Date</span> departureDate <span class="pl-k">=</span> getDateAfter(<span class="pl-k">new</span> <span class="pl-smi">Date</span>());
+      map<span class="pl-k">.</span>add(<span class="pl-s"><span class="pl-pds">"</span>departureDate<span class="pl-pds">"</span></span>, departureDate<span class="pl-k">.</span>toString());
+      map<span class="pl-k">.</span>add(<span class="pl-s"><span class="pl-pds">"</span>arrivalCity<span class="pl-pds">"</span></span>, getCity()<span class="pl-k">.</span>getId()<span class="pl-k">.</span>toString());
+      map<span class="pl-k">.</span>add(<span class="pl-s"><span class="pl-pds">"</span>returnDate<span class="pl-pds">"</span></span>, getDateAfter(departureDate)<span class="pl-k">.</span>toString());
+
+      <span class="pl-smi">String</span> result <span class="pl-k">=</span> rest<span class="pl-k">.</span>postForObject(<span class="pl-s"><span class="pl-pds">"</span>http://localhost:8080/reserve<span class="pl-pds">"</span></span>, map, <span class="pl-smi">String</span><span class="pl-k">.</span>class);</pre></div>
+
+<p><em>18-Jul-2016</em></p>
+
+<h3>
 <a id="minimal-standalone-spring-boot-application" class="anchor" href="#minimal-standalone-spring-boot-application" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Minimal standalone Spring Boot application</h3>
 
 <div class="highlight highlight-source-java"><pre>@<span class="pl-smi">SpringBootApplication</span>
