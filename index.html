@@ -19,6 +19,19 @@
       <h3>
 <a id="minimal-standalone-spring-boot-application" class="anchor" href="#minimal-standalone-spring-boot-application" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Minimal standalone Spring Boot application</h3>
 
+<div class="highlight highlight-source-java"><pre>@<span class="pl-smi">SpringBootApplication</span>
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">AnApplication</span> {
+
+   <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">void</span> <span class="pl-en">main</span>(<span class="pl-k">String</span>[] <span class="pl-v">args</span>) {
+      <span class="pl-smi">ConfigurableApplicationContext</span> ctx <span class="pl-k">=</span> <span class="pl-smi">SpringApplication</span><span class="pl-k">.</span>run(<span class="pl-smi">AnApplication</span><span class="pl-k">.</span>class, args);
+      <span class="pl-smi">AnApplication</span> main <span class="pl-k">=</span> ctx<span class="pl-k">.</span>getBean(<span class="pl-smi">AnApplication</span><span class="pl-k">.</span>class);
+      main<span class="pl-k">.</span>init();
+   }
+
+   <span class="pl-k">private</span> <span class="pl-k">void</span> <span class="pl-en">init</span>() {
+   }
+}</pre></div>
+
 <p><em>15-Jul-2016</em></p>
 
 <h3>
