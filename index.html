@@ -37,10 +37,46 @@
 <h3>
 <a id="spring-value-default-values" class="anchor" href="#spring-value-default-values" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Spring <code>@Value</code> default values</h3>
 
+<div class="highlight highlight-source-java"><pre>@Value(${<span class="pl-s"><span class="pl-pds">"</span>someProperty:&lt;defaultValue&gt;<span class="pl-pds">"</span></span>}</pre></div>
+
+<ul>
+<li>If the config file <em>does not</em> contain <code>someProperty</code> then this works as expected. <em>If</em> the config file <em>does</em> contain <code>someProperty</code> <em>without</em> a value <code>someProperty</code> is null.</li>
+</ul>
+
 <p><em>15-Jul-2016</em></p>
 
 <h3>
 <a id="adding-the-new-relic-agent-to-a-spring-boot-project" class="anchor" href="#adding-the-new-relic-agent-to-a-spring-boot-project" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Adding the New Relic Agent to a Spring Boot project</h3>
+
+<p>Add this to your <code>pom.xml</code></p>
+
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">dependency</span>&gt;
+    &lt;<span class="pl-ent">groupId</span>&gt;com.newrelic.agent.java&lt;/<span class="pl-ent">groupId</span>&gt;
+    &lt;<span class="pl-ent">artifactId</span>&gt;newrelic-agent&lt;/<span class="pl-ent">artifactId</span>&gt;
+    &lt;<span class="pl-ent">version</span>&gt;${newrelic.agent.version}&lt;/<span class="pl-ent">version</span>&gt;
+&lt;/<span class="pl-ent">dependency</span>&gt;
+...
+&lt;<span class="pl-ent">plugin</span>&gt;
+    &lt;<span class="pl-ent">groupId</span>&gt;org.apache.maven.plugins&lt;/<span class="pl-ent">groupId</span>&gt;
+    &lt;<span class="pl-ent">artifactId</span>&gt;maven-jar-plugin&lt;/<span class="pl-ent">artifactId</span>&gt;
+    &lt;<span class="pl-ent">configuration</span>&gt;
+        &lt;<span class="pl-ent">archive</span>&gt;
+            &lt;<span class="pl-ent">manifestEntries</span>&gt;
+                &lt;<span class="pl-ent">Premain-Class</span>&gt;com.newrelic.bootstrap.BootstrapAgent&lt;/<span class="pl-ent">Premain-Class</span>&gt;
+                &lt;<span class="pl-ent">Can-Redefine-Classes</span>&gt;true&lt;/<span class="pl-ent">Can-Redefine-Classes</span>&gt;
+                &lt;<span class="pl-ent">Can-Retransform-Classes</span>&gt;true&lt;/<span class="pl-ent">Can-Retransform-Classes</span>&gt;
+            &lt;/<span class="pl-ent">manifestEntries</span>&gt;
+        &lt;/<span class="pl-ent">archive</span>&gt;
+    &lt;/<span class="pl-ent">configuration</span>&gt;
+&lt;/<span class="pl-ent">plugin</span>&gt;</pre></div>
+
+<ul>
+<li>Ensure that all New Relic config files (<code>extension-example.xml extension.xsd newrelic.yml nrcerts</code>) are in <code>src/main/resources</code>
+</li>
+<li>Execute the application from the command line with</li>
+</ul>
+
+<div class="highlight highlight-source-shell"><pre>mvn clean install spring-boot:run -Drun.jvmArguments=<span class="pl-s"><span class="pl-pds">"</span>-javaagent:./target/&lt;your-jar&gt;.jar -Dnewrelic.config.file=./target/classes/newrelic.yml -Dnewrelic.config.app_name=&lt;your-app-name&gt;<span class="pl-pds">"</span></span></pre></div>
 
 <p><em>15-Jul-2016</em></p>
 
