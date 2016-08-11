@@ -17,6 +17,67 @@
 
     <section class="main-content">
       <h3>
+<a id="ftp-maven-artifact-to-sharefile" class="anchor" href="#ftp-maven-artifact-to-sharefile" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>FTP Maven artifact to Sharefile</h3>
+
+<p>To ftp a Maven artifact to Sharefile use Wagon and the Wagon plugin:
+<code>pom.xml</code></p>
+
+<div class="highlight highlight-text-xml"><pre>  &lt;<span class="pl-ent">distributionManagement</span>&gt;
+    &lt;<span class="pl-ent">repository</span>&gt;
+      &lt;<span class="pl-ent">id</span>&gt;ftp-repository&lt;/<span class="pl-ent">id</span>&gt;
+      &lt;<span class="pl-ent">url</span>&gt;ftp://newrelic.sharefileftp.com&lt;/<span class="pl-ent">url</span>&gt;
+    &lt;/<span class="pl-ent">repository</span>&gt;
+  &lt;/<span class="pl-ent">distributionManagement</span>&gt;
+
+  &lt;<span class="pl-ent">build</span>&gt;
+    &lt;<span class="pl-ent">extensions</span>&gt;
+      &lt;<span class="pl-ent">extension</span>&gt;
+        &lt;<span class="pl-ent">groupId</span>&gt;org.apache.maven.wagon&lt;/<span class="pl-ent">groupId</span>&gt;
+        &lt;<span class="pl-ent">artifactId</span>&gt;wagon-ftp&lt;/<span class="pl-ent">artifactId</span>&gt;
+        &lt;<span class="pl-ent">version</span>&gt;2.10&lt;/<span class="pl-ent">version</span>&gt;
+      &lt;/<span class="pl-ent">extension</span>&gt;
+    &lt;/<span class="pl-ent">extensions</span>&gt;
+    &lt;<span class="pl-ent">plugins</span>&gt;
+      &lt;<span class="pl-ent">plugin</span>&gt;
+        &lt;<span class="pl-ent">groupId</span>&gt;org.codehaus.mojo&lt;/<span class="pl-ent">groupId</span>&gt;
+        &lt;<span class="pl-ent">artifactId</span>&gt;wagon-maven-plugin&lt;/<span class="pl-ent">artifactId</span>&gt;
+        &lt;<span class="pl-ent">version</span>&gt;1.0&lt;/<span class="pl-ent">version</span>&gt;
+        &lt;<span class="pl-ent">executions</span>&gt;
+          &lt;<span class="pl-ent">execution</span>&gt;
+            &lt;<span class="pl-ent">id</span>&gt;upload-assembly&lt;/<span class="pl-ent">id</span>&gt;
+            &lt;<span class="pl-ent">phase</span>&gt;install&lt;/<span class="pl-ent">phase</span>&gt;
+            &lt;<span class="pl-ent">goals</span>&gt;
+              &lt;<span class="pl-ent">goal</span>&gt;upload-single&lt;/<span class="pl-ent">goal</span>&gt;
+            &lt;/<span class="pl-ent">goals</span>&gt;
+            &lt;<span class="pl-ent">configuration</span>&gt;
+              &lt;<span class="pl-ent">serverId</span>&gt;sharefile-ftp&lt;/<span class="pl-ent">serverId</span>&gt;
+              &lt;<span class="pl-ent">fromFile</span>&gt;${project.build.directory}/${project.build.finalName}.jar&lt;/<span class="pl-ent">fromFile</span>&gt;
+              &lt;<span class="pl-ent">url</span>&gt;ftp://*organization*.sharefileftp.com/*full*path*to*subdirectory/&lt;/<span class="pl-ent">url</span>&gt;
+              &lt;<span class="pl-ent">toDir</span>&gt;/&lt;/<span class="pl-ent">toDir</span>&gt;
+            &lt;/<span class="pl-ent">configuration</span>&gt;
+          &lt;/<span class="pl-ent">execution</span>&gt;
+        &lt;/<span class="pl-ent">executions</span>&gt;
+      &lt;/<span class="pl-ent">plugin</span>&gt;</pre></div>
+
+<p><code>settings.xml</code></p>
+
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">settings</span>&gt;
+    &lt;<span class="pl-ent">servers</span>&gt;
+        &lt;<span class="pl-ent">server</span>&gt;
+            &lt;<span class="pl-ent">id</span>&gt;sharefile-ftp&lt;/<span class="pl-ent">id</span>&gt;
+            &lt;<span class="pl-ent">username</span>&gt;&lt;/<span class="pl-ent">username</span>&gt;
+            &lt;<span class="pl-ent">password</span>&gt;&lt;/<span class="pl-ent">password</span>&gt;
+        &lt;/<span class="pl-ent">server</span>&gt;
+    &lt;/<span class="pl-ent">servers</span>&gt;
+&lt;/<span class="pl-ent">settings</span>&gt;</pre></div>
+
+<p><code>mvn install</code> will then ftp the file to Sharefile.</p>
+
+<p>Sharefile config information is found in your Sharefile account under <code>My Settings -&gt; FTP Settings</code>.</p>
+
+<p><em>11-Aug-2016</em></p>
+
+<h3>
 <a id="post-form-data-with-spring-resttemplate" class="anchor" href="#post-form-data-with-spring-resttemplate" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>POST Form data with Spring RestTemplate</h3>
 
 <p>Simulates a browser Form submit (POST).</p>
