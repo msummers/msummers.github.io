@@ -17,6 +17,20 @@
 
     <section class="main-content">
       <h3>
+<a id="netty-and-vertx-logging" class="anchor" href="#netty-and-vertx-logging" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Netty and Vert.x logging</h3>
+
+<div class="highlight highlight-source-java"><pre>      <span class="pl-smi">InternalLoggerFactory</span><span class="pl-k">.</span>setDefaultFactory(<span class="pl-smi">Log4J2LoggerFactory</span><span class="pl-c1"><span class="pl-k">.</span>INSTANCE</span>);
+
+      <span class="pl-smi">NetServerOptions</span> nsoptions <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">NetServerOptions</span>()<span class="pl-k">.</span>setLogActivity(<span class="pl-c1">true</span>);
+      <span class="pl-smi">NetServer</span> server <span class="pl-k">=</span> vertx<span class="pl-k">.</span>createNetServer(nsoptions);
+
+      <span class="pl-smi">NetClientOptions</span> ncoptions <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">NetClientOptions</span>()<span class="pl-k">.</span>setLogActivity(<span class="pl-c1">true</span>);
+      <span class="pl-smi">NetClient</span> client <span class="pl-k">=</span> vertx<span class="pl-k">.</span>createNetClient(ncoptions);      </pre></div>
+
+<p>Tags: #netty #vertx #vert.x #logging
+<em>14-Feb-2017</em></p>
+
+<h3>
 <a id="neo4j-browser-configuration-for-spring-boot-with-embedded-neo4j" class="anchor" href="#neo4j-browser-configuration-for-spring-boot-with-embedded-neo4j" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Neo4j Browser configuration for Spring Boot with embedded Neo4j</h3>
 
 <p>Add these dependencies to <code>pom.xml</code>:</p>
@@ -138,7 +152,7 @@
       converters<span class="pl-k">.</span>add(<span class="pl-k">new</span> <span class="pl-smi">StringHttpMessageConverter</span>());
       rest<span class="pl-k">.</span>setMessageConverters(converters);
 
-      <span class="pl-c">// Form data goes into the map</span>
+      <span class="pl-c"><span class="pl-c">//</span> Form data goes into the map</span>
       <span class="pl-k">MultiValueMap&lt;<span class="pl-smi">String</span>, <span class="pl-smi">String</span>&gt;</span> map <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-k">LinkedMultiValueMap&lt;<span class="pl-smi">String</span>, <span class="pl-smi">String</span>&gt;</span>();
       map<span class="pl-k">.</span>add(<span class="pl-s"><span class="pl-pds">"</span>firstName<span class="pl-pds">"</span></span>, getFirstName());
       map<span class="pl-k">.</span>add(<span class="pl-s"><span class="pl-pds">"</span>lastName<span class="pl-pds">"</span></span>, getLastName());
